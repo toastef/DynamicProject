@@ -1,2 +1,1 @@
-# VueJs
-SelfLearning VueJs
+# Symfony Course
