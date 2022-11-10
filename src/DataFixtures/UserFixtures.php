@@ -36,6 +36,19 @@ class UserFixtures extends Fixture
                     ->setRoles(['ROLE_USER']);
             $manager->persist($user);
         }
+
+        // Admin jhon doe
+        $user = new User();
+        $user   ->setFirstName('John')
+                ->setLastName('Doe')
+                ->setEmail('john.doe@gmail.com')
+                ->setImageName('062m.jpg')
+                ->setPassword($this->hasher->hashPassword($user, 'password'))
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable())
+                ->setIsDisabled(false)
+                ->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);
         $manager->flush();
     }
 }
