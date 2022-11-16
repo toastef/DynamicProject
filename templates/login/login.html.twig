@@ -20,6 +20,7 @@
                         <label for="password" class="form-label">Password:</label>
                         <input type="password" id="password" name="_password" class="form-control">
                     </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> {# va permettre de protéger contre les attaques #}
                     <div class="form-group my-3">
                         <button type="submit" class="form-control btn btn-outline-secondary">login</button>
                     </div>
