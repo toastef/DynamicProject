@@ -23,14 +23,14 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setPassword(
+              $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
-            )
-                ->setImageName('default.jpg')
-                ->setCreatedAt(new \DateTimeImmutable())
+            );
+                if(empty($user->getImageFile())) $user->setImageName('default.jpg');
+                $user->setCreatedAt(new \DateTimeImmutable())
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setRoles(['ROLE_USER'])
                 ->setIsDisabled(false);
