@@ -49,8 +49,8 @@
                                     <img src="{{ asset('img/avatar/' ~  app.user.imageName) }}" class="img-avatar"> &nbsp; &nbsp; {{ app.user.firstname }} {{ app.user.lastname }}
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Voir profil</a></li>
-                                    <li><a class="dropdown-item" href="#">Modifier profil</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_user')}}">Voir profil</a></li>
+                                    <li><a class="dropdown-item" href="{{path('app_edit_profile')}}">Modifier profil</a></li>
                                     <li><a class="dropdown-item" href="#">Modifier password</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item " href="{{ path('app_logout') }}" type="button"><i class="icofont-sign-out"></i>Déconnexion</a></li>

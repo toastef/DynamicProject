@@ -1,27 +1,33 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Profile{% endblock %}
 
-{% block body %}
+    {% extends 'base.html.twig' %}
 
-<div class="container">
-    <section class="row">
-        <div class="col-md-7">
-            <img src="{{ asset('img/avatar/' ~ app.user.imageName) }}" alt="">
-        </div>
-        <div class="col-md-5">
-            <h2>{{ app.user.firstname }} {{ app.user.lastname }}</h2>
-            <p>Votre mail : {{ app.user.email }}</p>
-            <p>Création du compte: {{ app.user.createdAt|date('d/m/Y') }}</p>
-            <p>Mise à jour du compte: {{ app.user.updatedAt|date('d/m/Y') }}<p>
+    {% block title %}{{ app.user.firstName }} {{ app.user.lastName }}{% endblock %}
 
-            <p>Status :
-                {% for role in app.user.roles %}
-                {{ user.roles }}
-            {% endfor %}
-            </p>
-        </div>
-    </section>
-</div>
+    {% block body %}
+        <main class="container my-5">
+            <div class="row profile">
+                <div class="col-md-4">
+                    <img src="img/avatar/{{ app.user.imageName }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="" style="width: 100%; height: 100%;">
+                </div>
+                <div class="col-md-8">
+                    <h2>{{ app.user.firstName }} {{ app.user.lastName }}</h2>
+                    <div class="my-3">
+                        <a href="{{ path('app_edit_profile') }}" class="btn btn-dark">Modifier mon compte</a>
+                    </div>
+                    <p>Votre Email: {{ app.user.email }}</p>
+                    <p>Création du compte: {{ app.user.createdAt|date('d/m/Y') }}</p>
+                    <p>Mise à jour du compte: {{ app.user.updatedAt|date('d/m/Y') }}<p>
+                    <p>Status:
+                        {% for role in app.user.roles %}
+                            {{ role | capitalize | replace({'_': ' '}) }} {# remplacer le souligner de la db par un espace avec le filtre replace #}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
 
-{% endblock %}
+
+
+
