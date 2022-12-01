@@ -24,11 +24,28 @@ class AdminCourseController extends AbstractController
         ]);
     }
 
-     #[Route('/admin/delete/{id}', name: 'delete')]
+     #[Route('/admin/delete/{id}', name: 'app_admin_delete')]
     public function delete(Course $course, EntityManagerInterface $manager): Response
     {
         $manager->remove($course);
         $manager->flush(); // script pour le delete pris en compte par $manager
-        return $this->redirectToRoute('app_admin_course'); // vient de l'abstractcontroller pour rediriger vers l'admin
+        $this->addFlash('success', 'Le cours'. $course->getName().'a été supprimé avec succes');
+        return $this->redirectToRoute('app_admin_course');
     }
+
+    /**
+     * @param Course $course
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route('admin/publish/{id}', name: 'app_admin_publish')]
+    public function published(Course $course, EntityManagerInterface $manager): Response
+    {
+        $course->setIsPublished(!$course->isIsPublished());// set le contraire de ce qu'il récupère
+        $manager->flush();
+        $this->addFlash('success', 'modification enregistrée avec succes pour le cours!');
+        return $this->redirectToRoute('app_admin_course');
+    }
+
+
 }

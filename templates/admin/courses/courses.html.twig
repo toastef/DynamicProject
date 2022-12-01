@@ -34,13 +34,13 @@
                     <td>{{ course.category.name }}</td>
                     <td>{{ course.price|format_currency('EUR') }}</td>
                     <td>{{ course.duration|date('i:s') }} </td>
-                    <td><a class="btn btn-danger" href="{{ path('delete',{id:course.id}) }}) }}"><i class="icofont-ui-delete "></i></a></td>
+                    <td><a class="btn btn-danger" href="{{ path('app_admin_delete',{id:course.id}) }}"><i class="icofont-ui-delete "></i></a></td>
                     <td><a class="btn btn-success" href="#"><i class="icofont-edit"></i></a></td>
 
                         {% if course.isIsPublished %}
-                            <td class="text-center"><a href="" class="btn btn-light"><i class="icofont-eye text-success"></i></a></td>
+                            <td class="text-center"><a href="{{ path('app_admin_publish',{id:course.id}) }}" class="btn btn-light"><i class="icofont-eye text-success"></i></a></td>
                         {% else %}
-                            <td class="text-center"><a href="" class="btn btn-light"><i class="icofont-eye text-danger"></i></a></td>
+                            <td class="text-center"><a href="{{ path('app_admin_publish',{id:course.id}) }}" class="btn btn-light"><i class="icofont-eye text-danger"></i></a></td>
                         {% endif %}
 
 
