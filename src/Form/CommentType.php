@@ -16,7 +16,7 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' =>'titre',
+                'label' =>'Titre',
                 'attr' => [
                     'placeholder' => 'Titre',
                 ],
@@ -25,11 +25,11 @@ class CommentType extends AbstractType
                 'label' => 'Votre note',
                 'attr' => [
                     'placeholder' => ' votre note de 0 à 5',
-                ],
+                ], // a modifier car peut causer un conflit si quelqu'un va mettre une valeur non comprise entre 1 et 5
             ] )
             ->add('comment', TextareaType::class,
             [
-                'label'=> 'comment',
+                'label'=> 'Commentaire',
                 'attr' => ['placeholder' => 'Commentaire',],
             ])
         ;

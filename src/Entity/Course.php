@@ -255,4 +255,17 @@ class Course
 
         return $this;
     }
+
+    /**
+     * @param User $user
+     * @return mixed|null
+     * Permet de récupérer le commentaire de l'utilisateur sur le cours
+     */
+    public function getCommentFromUser(User $user)
+    {
+        foreach ($this->comments as $comment){
+            if ($comment->getUser() == $user) return $comment;
+        }
+        return null ;
+    }
 }

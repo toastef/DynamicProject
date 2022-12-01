@@ -31,6 +31,10 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER  # le role admin hérite du role user
+        ROLE_SUPER_ADMIN: ROLE_ADMIN # Le role superadmin va hériter du role admin ainsi que du role user
+
 when@test:
     security:
         password_hashers:

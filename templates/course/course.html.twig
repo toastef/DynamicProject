@@ -70,15 +70,24 @@
                         <p>{{ comment.comment }}</p>
                     {% endfor %}
                 </div>
-                <div class="tab-pane fade" id="postcomment">
-                    {% if app.user %}
+                <div class="tab-pane fade " id="postcomment">
+                    {% if is_granted('ROLE_USER') %} {# va vérifier si le role est au moins user #}
+                        {% set comment = course.commentFromUser(app.user) %}
+                        {% if comment is not null %}
+                            <h4 class="text-muted my-4">Vous avez déja posté un commentaire le {{ comment.createdAt| date("d/m/Y") }}</h4>
+                            <p>{{ comment.title }}</p>
+                            <p>{{ comment.comment }}</p>
+                        {% else%}
+                        <h4 class="my-4">Poster un commentaire</h4>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
                         <button type="submit" class="btn btn-dark">Commenter</button>
                         {{ form_end(form) }}
+                            {% endif %}
                     {% else %}
-                        <h4 class="py-4">Vous devez Vous connecter pour laisser un commentaire</h4>
-                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Login</a> <a href="{{ path('app_register') }}" class="btn btn-outline-primary">S'enregistrer</a>
+                        <h4 class="my-4">Vous devez Vous connectez pour laisser un commentaire</h4>
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Login</a>
+                        <a href="{{ path('app_register') }}" class="btn btn-outline-primary">S'enregistrer</a>
                     {% endif %}
                 </div>
 
@@ -89,5 +98,5 @@
 {% endblock %}
 
 
-{# controller pour inserer un commentaire en base de donnée , le formulaire pour editer un commentaite ,getuser #}
+
 
