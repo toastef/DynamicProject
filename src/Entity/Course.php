@@ -57,7 +57,7 @@ class Course
     #[ORM\JoinColumn(nullable: false)]
     private ?CourseLevel $level = null;
 
-    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
     public function __construct()

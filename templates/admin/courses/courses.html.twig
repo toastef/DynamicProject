@@ -1,76 +1,55 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} Courses {% endblock %}
+{% block title %}Courses{{ parent() }}{% endblock %}
 
 {% block body %}
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <h4 class="my-5 text-muted">Options</h4>
-                <div class="accordion" id="accordionExample">
-                    {# Courses #}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Les formations
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                            <div class="accordion-body">
-                                <a href="">Gestion des formations</a><br>
-                                <a href="">Ajouter une formation</a>
-                            </div>
-                        </div>
-                    </div>
-                    {# Comments #}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Les commentaires
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <a href="">Gestion des commentaires</a>
-                            </div>
-                        </div>
-                    </div>
-                    {# Actualités #}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Les actualités
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <a href="">Gestion des actualités</a><br>
-                                <a href="">Ajouter une actualité</a><br>
-                                <a href="">Publier une newsletter</a>
-                            </div>
-                        </div>
-                    </div>
-                    {# Users #}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingFour">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Les utilisateurs
-                            </button>
-                        </h2>
-                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <a href="">Gestion des utilisateurs</a><br>
-                                <a href="">Ajouter un utilisateur</a><br>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <h4 class="my-5 text-muted">Gestion des formations</h4>
-            </div>
-        </div>
+    <h4 class="my-5 text-muted">Gestion des formations</h4>
+
+
+    <div class="col-md-10 ">
+        <table id="table-admin" class="table table-hover ">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Niveau</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Durée</th>
+                <th>Delete</th>
+                <th>Edit</th>
+                <th class="text-center">hide/show</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for course in courses %}
+                <tr>
+                    <td><img src="{{ asset('img/sections/' ~ course.imageName) }}" alt="{{ course.name }} "
+                             class="admin-img" style="width: 80px; height: 60px"></td>
+                    <td><a href="{{ path('course', {slug: course.slug}) }} ">{{ course.name|capitalize }}</a></td>
+                    <td>{{ course.level.name }}</td>
+                    <td>{{ course.category.name }}</td>
+                    <td>{{ course.price|format_currency('EUR') }}</td>
+                    <td>{{ course.duration|date('i:s') }} </td>
+                    <td><a class="btn btn-danger" href="{{ path('delete',{id:course.id}) }}) }}"><i class="icofont-ui-delete "></i></a></td>
+                    <td><a class="btn btn-success" href="#"><i class="icofont-edit"></i></a></td>
+
+                        {% if course.isIsPublished %}
+                            <td class="text-center"><a href="" class="btn btn-light"><i class="icofont-eye text-success"></i></a></td>
+                        {% else %}
+                            <td class="text-center"><a href="" class="btn btn-light"><i class="icofont-eye text-danger"></i></a></td>
+                        {% endif %}
+
+
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}

@@ -86,3 +86,11 @@ footer a:hover {
   object-fit: cover;
 
 }
+
+a {
+  text-decoration: none;
+}
+
+.admin-img{
+  width: 40px;
+}
