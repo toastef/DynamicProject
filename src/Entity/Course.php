@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
+#[Vich\Uploadable]
 class Course
 {
     #[ORM\Id]
@@ -46,8 +49,14 @@ class Course
     #[ORM\Column(length: 255)]
     private ?string $imageName = null;
 
+    #[Vich\UploadableField(mapping: 'course_image', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
+
     #[ORM\Column(length: 255)]
     private ?string $pdfName = null;
+
+    #[Vich\UploadableField(mapping: 'course_pdf', fileNameProperty: 'pdf_name')]
+    private ?File $programFile = null;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
@@ -183,10 +192,9 @@ class Course
         return $this->imageName;
     }
 
-    public function setImageName(string $imageName): self
+    public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
-
         return $this;
     }
 
@@ -195,7 +203,7 @@ class Course
         return $this->pdfName;
     }
 
-    public function setPdfName(string $pdfName): self
+    public function setPdfName(?string $pdfName): self
     {
         $this->pdfName = $pdfName;
 
@@ -257,15 +265,48 @@ class Course
     }
 
     /**
+     * Permet de récupérer le commentaire d'un auteur sur le cours
      * @param User $user
      * @return mixed|null
-     * Permet de récupérer le commentaire de l'utilisateur sur le cours
      */
     public function getCommentFromUser(User $user)
     {
-        foreach ($this->comments as $comment){
-            if ($comment->getUser() == $user) return $comment;
+        foreach($this->comments as $comment) {
+            if($comment->getUser() == $user) return $comment;
         }
-        return null ;
+        return null;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setProgramFile(?File $programFile = null): void
+    {
+        $this->programFile = $programFile;
+
+        if (null !== $programFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getProgramFile(): ?File
+    {
+        return $this->programFile;
     }
 }
+

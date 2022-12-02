@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} - Admin{% endblock %}</title>
+{# favicon #}
     <link rel="icon" href="{{ asset('img/design/favicon.png') }}">
+{#bootstrap#}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+{#Custom #}
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+{# icofont #}
     <link rel="stylesheet" href="{{ asset('css/icofont.min.css') }}">
+{# datatable #}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     {% block stylesheets %}
 
     {% endblock %}
@@ -21,6 +27,24 @@
 {% block body %}{% endblock %}
 {% include 'admin/partials/footer.html.twig' %}
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script> {# pour le tableau filtrer des formations #}
+{#datatable#}
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#table-admin').DataTable(
+            {
+                "info": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                }
+            }
+        );
+    } );
+</script>
+{# script qui va pemettre de retourner les infos qui sont sur les filtres en francais #}
 
 </body>
 </html>
