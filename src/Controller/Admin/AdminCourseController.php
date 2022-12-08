@@ -15,6 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminCourseController extends AbstractController
 {
+    /**
+     * @param CourseRepository $repository
+     * @return Response
+     */
     #[Route('/admin/courses', name: 'app_admin_course')]
     public function adminCourses(CourseRepository $repository): Response
     {
@@ -28,6 +32,11 @@ class AdminCourseController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Course $course
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/delete/{id}', name: 'app_admin_delete')]
     public function delete(Course $course, EntityManagerInterface $manager): Response
     {
@@ -51,7 +60,12 @@ class AdminCourseController extends AbstractController
         return $this->redirectToRoute('app_admin_course');
     }
 
-    #[Route('/admin/new', name: 'app_admin_new')]
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route('/admin/newcourse', name: 'app_admin_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
         $slugify = new Slugify();
@@ -73,6 +87,32 @@ class AdminCourseController extends AbstractController
             return $this->redirectToRoute('app_admin_course');
         }
         return $this->renderForm('admin/courses/newCourse.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    /**
+     * @param Course $course
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+     #[Route('admin/editcourse/{id}', name: 'app_admin_edit_course')]
+      public function editCourse(Course $course, EntityManagerInterface $manager, Request $request): Response
+    {
+        $form = $this->createForm(NewCourseType::class, $course);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slugify = new Slugify();
+            $course->setSlug($slugify->slugify($course->getName()));
+            $manager->flush();
+            $this->addFlash(
+                'succes',
+                'Modification apportées avec succes'
+            );
+            return $this->redirectToRoute('app_admin_course');
+        }
+        return $this->renderForm('admin/courses/editcourse.html.twig', [
             'form' => $form
         ]);
     }

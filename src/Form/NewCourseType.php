@@ -7,11 +7,11 @@ use App\Entity\Course;
 use App\Entity\CourseCategory;
 use App\Entity\CourseLevel;
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +29,7 @@ class NewCourseType extends AbstractType
             ->add('smallDescription', TextType::class, [
                 'label' => 'Description courte',
             ])
-            ->add('fullDescription', TextareaType::class, [
+            ->add('fullDescription', CKEditorType::class, [
                 'label' => 'Description complète',
             ])
             ->add('duration', IntegerType::class, [

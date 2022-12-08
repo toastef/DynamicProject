@@ -27,7 +27,8 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
+    access_control: # le plus restrictif toujour au dessus
+        - { path : ^/admin/users, roles: ROLE_SUPER_ADMIN} # pour accéder a ce chemin la il faut avoir le role super admin
         - { path: ^/admin, roles: ROLE_ADMIN } # Toutes les routes commencant par admin, il faut le role admin
         - { path: ^/profile, roles: ROLE_USER }
 

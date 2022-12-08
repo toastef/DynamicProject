@@ -13,6 +13,7 @@ class UserFixtures extends Fixture
 {
     private object $hasher;
     private array $genders = ['male', 'female'];
+    private array $role = [['ROLE_USER'],['ROLE_PROF']];
 
     public function __construct(UserPasswordHasherInterface $hasher) {
         $this->hasher = $hasher;
@@ -21,6 +22,7 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create();
         $slug = new Slugify(); // uniquement pour nettoyer le prefixe du mail
+        $countroles = count($this->role);
         for($i = 1; $i <= 50; $i++) {
             $user = new User();
             $gender = $faker->randomElement($this->genders);
@@ -33,7 +35,7 @@ class UserFixtures extends Fixture
                     ->setCreatedAt(new \DateTimeImmutable())
                     ->setUpdatedAt(new \DateTimeImmutable())
                     ->setIsDisabled($faker->boolean(10))
-                    ->setRoles(['ROLE_USER']);
+                    ->setRoles($this->role[$faker->numberBetween(0,$countroles  -1)] );
             $manager->persist($user);
         }
 
@@ -48,6 +50,19 @@ class UserFixtures extends Fixture
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setIsDisabled(false)
                 ->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);
+        $manager->flush();
+        // super admin Stef Toad
+        $user = new User();
+        $user   ->setFirstName('Stef')
+            ->setLastName('Toad')
+            ->setEmail('stef.toad@gmail.com')
+            ->setImageName('067m.jpg')
+            ->setPassword($this->hasher->hashPassword($user, 'password'))
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setIsDisabled(false)
+            ->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
         $manager->flush();
     }

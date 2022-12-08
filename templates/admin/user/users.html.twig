@@ -1,0 +1,70 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Courses{{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h4 class="my-5 text-muted">Gestion des formations</h4>
+
+
+
+    <table id="table-admin" class="table table-hover ">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>CreatedAT</th>
+            <th>Role</th>
+            <th class="text-center">hide/show</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for user in users %}
+            <tr>
+                <td><img src="{{ asset('img/avatar/' ~ user.imageName) }}" alt="{{ user.firstname }} "
+                         class="admin-img" style="width: 80px; height: 60px"></td>
+                <td>{{ user.firstname|capitalize }}</td>
+                <td>{{ user.lastname|capitalize }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.createdAt | date('d/m/Y')}}</td>
+               <td>
+                                {% for role in user.roles %}
+                                    <select>
+                                    {% if role is same as 'ROLE_USER' %}
+                                        <option>Utilisateur</option><br>
+                                        <option href="{{ path('app_admin_role_user_admin', {'id': user.id}) }}">Administrateur</option><br>
+                                        <option href="{{ path('app_admin_role_user_super_admin', {'id': user.id}) }}">Super Admin</option><br>
+                                    {% elseif role is same as 'ROLE_ADMIN' %}
+                                        <option href="{{ path('app_admin_role_user_user', {'id': user.id}) }}">Utilisateur</option><br>
+                                        <option>Administrateur</option><br>
+                                        <option href="{{ path('app_admin_role_user_super_admin', {'id': user.id}) }}">Super Admin</option><br>
+                                    {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
+                                        <option href="{{ path('app_admin_role_user_user', {'id': user.id}) }}">Utilisateur</option><br>
+                                        <option href="{{ path('app_admin_role_user_admin', {'id': user.id}) }}">Administrateur</option><br>
+                                        <option>Super Admin</option><br>
+                                    {% endif %}
+                                    </select>
+                                {% endfor %}
+
+                </td>
+
+                {% if user.isIsDisabled %}
+                    <td class="text-center"><a href="{{ path('app_admin_user_publish',{id:user.id}) }}"
+                                               class="btn btn-light"><i class="icofont-eye text-success"></i></a></td>
+                {% else %}
+                    <td class="text-center"><a href="{{ path('app_admin_user_publish',{id:user.id}) }}"
+                                               class="btn btn-light"><i class="icofont-eye text-danger"></i></a></td>
+                {% endif %}
+
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

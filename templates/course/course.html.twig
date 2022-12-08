@@ -48,7 +48,7 @@
                 </div>
                 <div class="tab-pane fade" id="details">
                     <h4 class="mt-3">Description complète</h4>
-                    <p>{{ course.fullDescription|capitalize }}</p>
+                    <p>{{ course.fullDescription|capitalize|raw }}</p>
                     <p><a href="{{ asset('img/pdf/' ~ course.pdfName) }}" class="btn btn-primary">Télécharger le
                             programme</a></p>
                 </div>

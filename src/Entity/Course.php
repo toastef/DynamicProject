@@ -69,6 +69,10 @@ class Course
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $profcourse = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -307,6 +311,18 @@ class Course
     public function getProgramFile(): ?File
     {
         return $this->programFile;
+    }
+
+    public function getProfcourse(): ?User
+    {
+        return $this->profcourse;
+    }
+
+    public function setProfcourse(?User $profcourse): self
+    {
+        $this->profcourse = $profcourse;
+
+        return $this;
     }
 }
 

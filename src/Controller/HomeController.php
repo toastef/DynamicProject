@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CourseCategoryRepository;
 use App\Repository\CourseRepository;
 use App\Repository\NewsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ class HomeController extends AbstractController
    * @return Response
    */
   #[Route('/', name: 'home')]
-    public function home(CourseRepository $courseRepository, NewsRepository $newsRepository): Response
+    public function home(CourseRepository $courseRepository, NewsRepository $newsRepository, CourseCategoryRepository $categoryRepository): Response
     {
         $courses = $courseRepository->findBy(
             ['isPublished' => true],
@@ -26,10 +27,13 @@ class HomeController extends AbstractController
             ['createdAt' => 'DESC'],
             4
         );
+        $category =  $categoryRepository->findAll();
+
         return $this->render('home/index.html.twig',
         [
             'courses'   => $courses,
-            'news'      => $news
+            'news'      => $news,
+            'category' => $category,
         ]);
     }
 }

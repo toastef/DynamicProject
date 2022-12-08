@@ -8,47 +8,50 @@
 
 
 
-        <table id="table-admin" class="table table-hover ">
-            <thead>
+    <table id="table-admin" class="table table-hover ">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Niveau</th>
+            <th>Catégorie</th>
+            <th>Prix</th>
+            <th>Durée</th>
+            <th>Delete</th>
+            <th>Edit</th>
+            <th class="text-center">hide/show</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for course in courses %}
             <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Niveau</th>
-                <th>Catégorie</th>
-                <th>Prix</th>
-                <th>Durée</th>
-                <th>Delete</th>
-                <th>Edit</th>
-                <th class="text-center">hide/show</th>
+                <td><img src="{{ asset('img/sections/' ~ course.imageName) }}" alt="{{ course.name }} "
+                         class="admin-img" style="width: 80px; height: 60px"></td>
+                <td><a href="{{ path('course', {slug: course.slug}) }} ">{{ course.name|capitalize }}</a></td>
+                <td>{{ course.level.name }}</td>
+                <td>{{ course.category.name }}</td>
+                <td>{{ course.price|format_currency('EUR') }}</td>
+                <td>{{ course.duration|date('i:s') }} </td>
+                <td><a class="btn btn-danger" href="{{ path('app_admin_delete',{id:course.id}) }}"><i
+                                class="icofont-ui-delete "></i></a></td>
+                <td><a class="btn btn-success" href="{{ path('app_admin_edit_course',{id:course.id}) }}"><i
+                                class="icofont-edit"></i></a></td>
+
+                {% if course.isIsPublished %}
+                    <td class="text-center"><a href="{{ path('app_admin_publish',{id:course.id}) }}"
+                                               class="btn btn-light"><i class="icofont-eye text-success"></i></a></td>
+                {% else %}
+                    <td class="text-center"><a href="{{ path('app_admin_publish',{id:course.id}) }}"
+                                               class="btn btn-light"><i class="icofont-eye text-danger"></i></a></td>
+                {% endif %}
+
 
             </tr>
-            </thead>
-            <tbody>
+        {% endfor %}
 
-            {% for course in courses %}
-                <tr>
-                    <td><img src="{{ asset('img/sections/' ~ course.imageName) }}" alt="{{ course.name }} "
-                             class="admin-img" style="width: 80px; height: 60px"></td>
-                    <td><a href="{{ path('course', {slug: course.slug}) }} ">{{ course.name|capitalize }}</a></td>
-                    <td>{{ course.level.name }}</td>
-                    <td>{{ course.category.name }}</td>
-                    <td>{{ course.price|format_currency('EUR') }}</td>
-                    <td>{{ course.duration|date('i:s') }} </td>
-                    <td><a class="btn btn-danger" href="{{ path('app_admin_delete',{id:course.id}) }}"><i class="icofont-ui-delete "></i></a></td>
-                    <td><a class="btn btn-success" href="#"><i class="icofont-edit"></i></a></td>
-
-                        {% if course.isIsPublished %}
-                            <td class="text-center"><a href="{{ path('app_admin_publish',{id:course.id}) }}" class="btn btn-light"><i class="icofont-eye text-success"></i></a></td>
-                        {% else %}
-                            <td class="text-center"><a href="{{ path('app_admin_publish',{id:course.id}) }}" class="btn btn-light"><i class="icofont-eye text-danger"></i></a></td>
-                        {% endif %}
-
-
-
-                </tr>
-            {% endfor %}
-
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
 {% endblock %}
