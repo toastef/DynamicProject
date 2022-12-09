@@ -24,4 +24,7 @@ class TeacherController extends AbstractController
             'categories' =>$categorys,
         ]);
     }
+
+    // créer une fonction pour renvoi dans le header des category
+
 }
