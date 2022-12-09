@@ -11,7 +11,7 @@ when@dev:
 when@test:
     web_profiler:
         toolbar: false
-        intercept_redirects: false
+        intercept_redirects: false  #Arret des mails et récupérations dans la débug toolbar de symfony
 
     framework:
         profiler: { collect: false }

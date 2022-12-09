@@ -36,9 +36,10 @@
                         <a class="nav-link" href="{{ path('news') }}">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">Contact</a>
+                        <a href="{{ path('app_template') }}"    class="nav-link">Contact</a>
                     </li>
                 </ul>
+
                 <div class="d-flex">
                     {% if not app.user %} <!-- si le user n'existe pas tu affiche le bouton ligin sinon le reste -->
                     <a  href="{{ path('app_login') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-sign-in"></i> S'identifier</a>
@@ -67,4 +68,11 @@
             </div>
         </div>
     </nav>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} my-0">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 {% endblock %}
