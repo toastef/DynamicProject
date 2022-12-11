@@ -1,0 +1,8 @@
+
+
+    <div class="dropdown-menu">
+        {% for cat in categories %}
+            <a class="dropdown-item" href="{{path('app_teacher')}}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+
